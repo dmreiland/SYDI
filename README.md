@@ -6,7 +6,7 @@ Sometimes less is more.
 
 SYDI was created with this in mind and you can customize the report quite extensively. Using the -h argument will show all available options for SYDI-Server.
 
-'''cscript.exe sydi-server.vbs -h'''
+>cscript.exe sydi-server.vbs -h
 
 Looking through the output you will want to focus on the Gathering Options.
 
@@ -14,14 +14,14 @@ Looking through the output you will want to focus on the Gathering Options.
 
 By default all options are enabled, so running the script in the default mode is the equivalent to executing:
 
-cscript.exe sydi-server.vbs -wabefghipPqrsSu -racdklp
+>cscript.exe sydi-server.vbs -wabefghipPqrsSu -racdklp
 
 Create a minimal report you would disable the WMI and Registry options by running:
 
-'''cscript.exe sydi-server.vbs -w -r'''
+>cscript.exe sydi-server.vbs -w -r
 
 If you would want to include everything aside from installed patches (q, from the help menu), processes (P) and services (s). You would execute this command:
 
-'''cscript.exe sydi-server.vbs -wabefghiprSu'''
+>cscript.exe sydi-server.vbs -wabefghiprSu
 
 Since all the options we wanted to disable were those found under the WMI section we didn’t have to touch the –r (registry) parameter.
