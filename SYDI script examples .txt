@@ -1,0 +1,56 @@
+
+@echo off 
+ 
+TITLE Server Documentor running from machine %COMPUTERNAME% by user %USERNAME% 
+ 
+set rundir=%~dp0
+color 17
+echo ===============================================================
+echo Description: 
+echo This program documents windows servers in either HTML
+echo or MSWORD format.
+echo ===============================================================
+echo.
+:loop
+set /P server="Enter target host to document: "
+set /P format="Which format do you want document %server% in (msword or html) ?: "
+set /P user="Enter Admin credentials (domain\user): "
+set /P passwd="Please Enter password for %user%: "
+set /P outputdir="Enter Output directory (fx. C: or UNC path): " 
+ 
+if /i %format% == html goto :html
+if /i %format% == msword goto :msword 
+:html
+cls
+echo.
+echo Documenting %server% in HTML.... Please wait...
+cscript.exe sydi-server.vbs -ex -sh -o%outputdir%\%server%XML.xml -t%server% -u%user% -p%passwd% > %outputdir%\%server%_html.log 
+ 
+REM Transforms the XML file to HTML
+cscript.exe sydi-transform.vbs -x%outputdir%\%server%XML.xml -sserverhtml.xsl -o%outputdir%\%server%.html >> %outputdir%\%server%_HTML.log 
+ 
+REM Deletes temporary XML template files
+del %outputdir%\%server%XML.xml /F 
+ 
+echo.
+echo Server Documentation finished successfully.... 
+echo Please check %outputdir%\%server%.html for result....
+goto :fin 
+ 
+:msword
+cls
+Echo MS Word must be installed locally where you run the script from!
+Echo Otherwise this will fail
+echo.
+echo Documenting %server% in MSWORD.... Please wait...
+cscript sydi-server.vbs" -t%server% -o%outputdir%\%server%_msword.doc -d > %outputdir%\%server%_msword.log 
+ 
+cls
+echo.
+echo Server Documentation finished successfully.... 
+echo Please check %outputdir%\%server%_msword.doc for result....
+goto :fin 
+ 
+ 
+:fin
+pause
